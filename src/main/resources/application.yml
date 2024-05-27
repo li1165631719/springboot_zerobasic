@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user
+  datasource: # 数据库
+    type: com.zaxxer.hikari.HikariDataSource # 数据源类型 HikariCP
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql驱动
+    url: jdbc:mysql://localhost:3306/zero_basis?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: root
+  hikari:
+    connection-timeout: 30000 # 等待连接池分配连接的最⼤时⻓（毫秒），超过这个时⻓还没可⽤的连接则发⽣SQLException， 默认:30秒
+    minimum-idle: 5 # 最⼩连接数
+    maximum-pool-size: 20 # 最⼤连接数
+    auto-commit: true # ⾃动提交.
+    idle-timeout: 600000 # 连接超时的最⼤时⻓（毫秒），超时则被释放（retired），默认:10分钟
+    pool-name: DateSourceHikariCP # 连接池名字
+    max-lifetime: 1800000 # 连接的⽣命时⻓（毫秒），超时⽽且没被使⽤则被释放（retired），默认:30分钟 1800000ms
+    connection-test-query: SELECT 1
