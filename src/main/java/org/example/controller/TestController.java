@@ -30,9 +30,17 @@ public class TestController {
 
         return "success :" + testService.addTestContent(content);
     }
-
+    //@PathVariable:只能获取请求路径中的参数
     @PostMapping("/test/mysql/{id}")
     public String testMysqlQuery(@PathVariable("id") String id){
+        logger.info("查询test的content，查询id："+id);
+        return testService.testMysqlQuery(id);
+    }
+
+    //@RequestParam:获取问号后面的参数
+    //@ResponseBody:要求前端传json，后端用bean接收
+    @GetMapping("/test")
+    public String testMysqlQuery1(@RequestParam("id") String id){
         logger.info("查询test的content，查询id："+id);
         return testService.testMysqlQuery(id);
     }
