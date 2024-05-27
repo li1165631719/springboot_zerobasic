@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.mapper.TestMapper;
+import org.example.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,13 @@ public class TestService {
     TestMapper testMapper;
 
     public String addTestContent(String content) {
-        testMapper.addTestContent("", content);
-        return null;
+        String id =CommonUtil.generateUUID();
+        testMapper.addTestContent(id, content);
+        return id;
+    }
+
+    public String testMysqlQuery(String id){
+        return testMapper.queryTestContentById(id);
     }
 
 }

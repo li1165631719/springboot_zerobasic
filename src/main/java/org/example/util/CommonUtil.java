@@ -3,6 +3,7 @@ package org.example.util;
 import java.util.UUID;
 
 /**
+ * 普通工具类
  * @Author 李志豪
  * @Date 2024/5/28 0:36
  */

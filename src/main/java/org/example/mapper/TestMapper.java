@@ -13,5 +13,5 @@ public interface TestMapper {
 
     public void addTestContent(@Param("id") String id,@Param("content") String content);
 
-    public void queryTestContentById(@Param("id") String id);
+    public String queryTestContentById(@Param("id") String id);
 }

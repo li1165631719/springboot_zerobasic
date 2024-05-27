@@ -8,14 +8,14 @@
         insert into
         <include refid="table"/>
         (<include refid="selectFields"/>)
-        values ({#id},{#content})
+        values (#{id},#{content})
     </insert>
 
     <select id="queryTestContentById" resultType="java.lang.String">
         select content from
         <include refid="table"/>
         <if test="id !=null">
-        where id = #id
+        where id = #{id}
         </if>
     </select>
 </mapper>
