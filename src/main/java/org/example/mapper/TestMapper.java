@@ -1,6 +1,5 @@
 package org.example.mapper;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
  * @author 李志豪
  * @create 2024/5/27
  */
+//@Repository
 @Mapper
 public interface TestMapper {
 
