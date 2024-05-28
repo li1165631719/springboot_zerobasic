@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import com.mysql.cj.log.LogFactory;
+import org.example.common.HttpResult;
 import org.example.param.LoginParam;
 import org.example.param.RegisterParam;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class LoginController {
     Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterParam param){
+    public HttpResult register(@RequestBody RegisterParam param){
 
         return null;
     }
