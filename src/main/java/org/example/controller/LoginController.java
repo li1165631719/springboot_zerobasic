@@ -1,17 +1,16 @@
 package org.example.controller;
 
-import com.mysql.cj.log.LogFactory;
 import org.example.common.HttpResult;
 import org.example.param.LoginParam;
 import org.example.param.RegisterParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -24,7 +23,7 @@ public class LoginController {
     Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping("/register")
-    public HttpResult register(@RequestBody RegisterParam param){
+    public HttpResult register(@RequestBody RegisterParam param, HttpServletResponse response){
 
         return null;
     }
