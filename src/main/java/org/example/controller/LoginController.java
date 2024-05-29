@@ -8,7 +8,6 @@ import org.example.result.RegisterResult;
 import org.example.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
+ *
+ * cookie是保存在发送请求方的请求路径下的，不是服务端的应用路径下
+ *
  * @author 李志豪
  * @create 2024/5/28
  */
@@ -35,7 +37,7 @@ public class LoginController {
 
         Cookie cookie =new Cookie("ticket", result.getTicket());
         cookie.setMaxAge(TokenConstant.ONE_DAY_SECONDS);
-        cookie.setPath("/");
+        cookie.setPath("/token/login");
         response.addCookie(cookie);
 
         return HttpResult.ok();
