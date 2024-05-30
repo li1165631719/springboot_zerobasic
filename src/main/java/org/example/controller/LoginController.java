@@ -5,9 +5,11 @@ import org.example.constant.TokenConstant;
 import org.example.param.LoginParam;
 import org.example.param.RegisterParam;
 import org.example.result.RegisterResult;
+import org.example.service.TokenService;
 import org.example.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,18 +31,22 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    @Autowired
+    TokenService tokenService;
+
+
     @PostMapping("/register")
     public HttpResult register(@RequestBody RegisterParam param, HttpServletResponse response){
 
-        RegisterResult result =new RegisterResult();
-        result.setTicket(CommonUtil.generateUUID());
+        HttpResult httpResult=tokenService.register(param);
+        if(httpResult.getData()!=null) {
+            Cookie cookie = new Cookie("ticket", httpResult.getData().toString());
+            cookie.setMaxAge(TokenConstant.ONE_DAY_SECONDS);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
 
-        Cookie cookie =new Cookie("ticket", result.getTicket());
-        cookie.setMaxAge(TokenConstant.ONE_DAY_SECONDS);
-        cookie.setPath("/token/login");
-        response.addCookie(cookie);
-
-        return HttpResult.ok();
+        return httpResult;
     }
     @PostMapping("/login")
     public String login(@RequestBody LoginParam param){

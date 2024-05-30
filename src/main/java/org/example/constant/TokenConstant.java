@@ -10,4 +10,6 @@ public class TokenConstant {
      *
      * */
     public static final Integer ONE_DAY_SECONDS= 24*60*60;
+
+    public static final Long DEFAULT_TICKET_EXPIRED_TIME= 3*24*60*60*1000L;
 }
