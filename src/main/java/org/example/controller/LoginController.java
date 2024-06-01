@@ -44,19 +44,27 @@ public class LoginController {
             cookie.setMaxAge(TokenConstant.ONE_DAY_SECONDS);
             cookie.setPath("/");
             response.addCookie(cookie);
+            return HttpResult.ok();
         }
 
         return httpResult;
     }
     @PostMapping("/login")
-    public String login(@RequestBody LoginParam param){
+    public HttpResult login(@RequestBody LoginParam param, HttpServletResponse response){
+        HttpResult httpResult=tokenService.login(param);
+        if(httpResult.getData()!=null) {
+            Cookie cookie = new Cookie("ticket", httpResult.getData().toString());
+            cookie.setMaxAge(TokenConstant.ONE_DAY_SECONDS);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return HttpResult.ok();
+        }
 
-        return null;
+        return httpResult;
     }
     @PostMapping("/logout")
-    public String logout(){
-
-        return null;
+    public HttpResult logout(){
+        return tokenService.logout();
     }
 
 }

@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.example.mapper.LoginTicketMapper">
     <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+
+    <resultMap id="zero_basisResult" type="org.example.dto.LoginTicketDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="ticket" property="ticket" jdbcType="VARCHAR"/>
+        <result column="expired_date" property="expiredDate" jdbcType="DATE"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
     <sql id="table">login_ticket</sql>
     <sql id="loginTicketFeilds">id, user_id, ticket, expired_date, status</sql>
     <insert id="addLoginTicketDTO">
@@ -10,4 +20,24 @@
         (<include refid="loginTicketFeilds"></include>)
         values (#{id}, #{userId}, #{ticket}, #{expiredDate}, #{status})
     </insert>
+
+    <select id="queryTicketDTO" resultMap="zero_basisResult">
+        select * from
+        <include refid="table"></include>
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateTicketDTO">
+        update
+        <include refid="table"></include>
+        set expired_date = #{expiredDate},
+        status = #{status}
+        where id =#{id}
+    </update>
+
+    <select id="queryTicketDTOByTicket" resultMap="zero_basisResult">
+        select * from
+        <include refid="table"></include>
+        where ticket = #{ticket}
+    </select>
 </mapper>

@@ -5,7 +5,7 @@ package org.example.dto;
  * @create 2024/5/30
  */
 public class UserDTO {
-    private String id;
+    private String userId;
     private String name;
     private String password;
     /**
@@ -17,12 +17,12 @@ public class UserDTO {
      */
     private String headUrl;
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

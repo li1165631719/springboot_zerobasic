@@ -2,7 +2,7 @@ package org.example.common;
 
 import org.example.error.CommonExceptionEnum;
 import org.example.error.ExceptionCode;
-import org.example.error.HttpExceptin;
+import org.example.error.HttpException;
 
 /**
  * @Author 李志豪
@@ -49,10 +49,10 @@ public class HttpResult<T> {
         return  result;
     }
 
-    public static HttpResult generateExceptionHttpResult(HttpExceptin httpExceptin){
+    public static HttpResult generateExceptionHttpResult(HttpException httpException){
         HttpResult result =new HttpResult();
-        result.setCode(httpExceptin.getCode());
-        result.setMessage(httpExceptin.getMessage());
+        result.setCode(httpException.getCode());
+        result.setMessage(httpException.getMessage());
         return  result;
     }
 

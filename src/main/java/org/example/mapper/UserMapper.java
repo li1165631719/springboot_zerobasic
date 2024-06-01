@@ -1,6 +1,7 @@
 package org.example.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.dto.UserDTO;
 
 /**
@@ -11,4 +12,8 @@ import org.example.dto.UserDTO;
 public interface UserMapper {
 
     public void addUserDTO(UserDTO userDTO);
+
+    public UserDTO queryUserDTO(@Param("name") String name);
+
+    public UserDTO queryUserDTOByUserId(@Param("userId") String userId);
 }

@@ -20,6 +20,9 @@ public class LoginTicketDTO {
      *
      * {@link org.example.enums.LoginTicketStatusEnum}
      *
+     * 定义类的时候多用包装类，为什么不用int，因为会赋予初始值，如果赋予一个0，这会对业务造成影响
+     * 而用包装类初始化的时候就是一个null不会对业务造成影响
+     *
      * */
     private Integer status;
 

@@ -2,13 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.example.mapper.UserMapper">
     <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+
+    <resultMap id="zero_basisResult" type="org.example.dto.UserDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="head_url" property="headUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
     <sql id="table">user</sql>
-    <sql id="userFields">id,name,password,salt,head_url</sql>
+    <sql id="userFields">user_id,name,password,salt,head_url</sql>
 
     <insert id="addUserDTO">
         insert into
-        <include refid="table"></include>
-        (<include refid="userFields"></include>)
-        values (#{id},#{name},#{password},#{salt},#{headUrl})
+        <include refid="table"/>
+        (<include refid="userFields"/>)
+        values (#{userId},#{name},#{password},#{salt},#{headUrl})
     </insert>
+
+    <select id="queryUserDTO" resultMap="zero_basisResult">
+        select * from
+        <include refid="table"/>
+        where name =#{name}
+    </select>
+
+    <select id="queryUserDTOByUserId" resultMap="zero_basisResult">
+        select * from
+        <include refid="table"/>
+        where user_id = #{userId}
+    </select>
 </mapper>

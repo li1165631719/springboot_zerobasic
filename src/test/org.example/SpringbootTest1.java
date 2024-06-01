@@ -1,5 +1,4 @@
-package org.example;
-
+import org.example.Application;
 import org.example.param.RegisterParam;
 import org.example.service.TokenService;
 import org.example.util.CommonUtil;
@@ -14,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @create 2024/5/30
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 public class SpringbootTest1 {
 
 
@@ -30,7 +29,7 @@ public class SpringbootTest1 {
     @Test
     public void testTokenService(){
         RegisterParam registerParam =new RegisterParam();
-        registerParam.setName("user-2");
+        registerParam.setName("user-1");
         registerParam.setPassword("123456");
         tokenService.register(registerParam);
     }
