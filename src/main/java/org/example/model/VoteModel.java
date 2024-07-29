@@ -25,5 +25,5 @@ public class VoteModel {
     /**
      * 选项集合
      */
-    private List<VoteOptionModel> opptionList;
+    private List<VoteOptionModel> optionList;
 }
