@@ -11,17 +11,16 @@ import org.springframework.stereotype.Service;
  * @Date 2024/7/29 22:46
  */
 @Service
-public class PunchCardService implements DynamicManage {
-
+public class VoteService implements DynamicManage {
 
     @Override
     public HttpResult dealDynamicPublishRequset(PublishDynamicParam param) {
-        System.out.println("处理打卡动态");
+        System.out.println("处理投票动态");
         return null;
     }
 
     @Override
     public Integer getType() {
-        return DynamicTypeEnum.PUNCH_CARD.getType();
+        return DynamicTypeEnum.VOTE.getType();
     }
 }

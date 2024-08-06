@@ -9,7 +9,7 @@ import org.example.param.PublishDynamicParam;
  */
 public interface DynamicManage {
 
-    public HttpResult dealDynamicRequset(PublishDynamicParam param);
+    public HttpResult dealDynamicPublishRequset(PublishDynamicParam param);
 
     public Integer getType();
 }
