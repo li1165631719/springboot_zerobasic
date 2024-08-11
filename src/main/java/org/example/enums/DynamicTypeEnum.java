@@ -35,6 +35,10 @@ public enum DynamicTypeEnum {
         }
     }
 
+    public static DynamicTypeEnum getDynamicTypeEnumMap(Integer type){
+        return dynamicTypeEnumMap.getOrDefault(type,null);
+    }
+
     public Integer getType() {
         return type;
     }

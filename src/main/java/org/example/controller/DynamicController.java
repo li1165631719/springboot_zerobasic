@@ -24,7 +24,6 @@ public class DynamicController {
 
     @PostMapping("/publish")
     public HttpResult publishDynamic(@RequestBody PublishDynamicParam param){
-
-        return null;
+        return service.publishDynamic(param);
     }
 }

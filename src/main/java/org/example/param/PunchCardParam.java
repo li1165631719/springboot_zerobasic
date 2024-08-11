@@ -12,11 +12,11 @@ public class PunchCardParam {
      /**
      * 打卡时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date punchCardDate;
 
      /**
-     * 打卡时间
+     * 打卡内容
      */
     private String punchCardContent;
 

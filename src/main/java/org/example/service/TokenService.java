@@ -32,7 +32,7 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    Logger logger = LoggerFactory.getLogger(TokenService.class);
+    private static Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     @Autowired
     private UserMapper userMapper;

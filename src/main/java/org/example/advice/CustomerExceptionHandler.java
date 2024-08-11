@@ -18,9 +18,11 @@ public class CustomerExceptionHandler {
     final static Logger logger = LoggerFactory.getLogger(CustomerExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
-    public HttpResult exceptionHandler(){
+    public HttpResult exceptionHandler(Exception e){
 
         logger.info("捕获到未知异常");
+
+        e.printStackTrace();
 
         return HttpResult.fail();
     }
