@@ -42,8 +42,10 @@ public class DynamicService {
         }
         Integer type = param.getType();
         if(DynamicTypeEnum.getDynamicTypeEnumMap(type)==null){
-
+            logger.info("开始发布动态，类型不存在，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(DynamicException.DYNAMIC_TYPE_IS_NOT_EXIST);
         }
+
 
         try {
 

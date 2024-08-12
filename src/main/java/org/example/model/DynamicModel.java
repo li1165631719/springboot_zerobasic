@@ -20,6 +20,12 @@ public class DynamicModel {
     private String content;
 
     /**
+     * 用户ID
+     */
+    private String userId;
+
+
+    /**
      * 评论数量
      */
     private String commentCount;

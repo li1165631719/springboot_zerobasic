@@ -12,6 +12,9 @@ public enum DynamicException implements ExceptionCode {
 
     DYNAMIC_CONTENT_IS_NOT_NULL(2000002,"动态内容不能为空","DYNAMIC_CONTENT_IS_NOT_NULL"),
 
+    DYNAMIC_TYPE_IS_NOT_EXIST(2000003,"动态类型不存在","DYNAMIC_CONTENT_IS_NOT_NULL"),
+
+
 
 
 
