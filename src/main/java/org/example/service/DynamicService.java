@@ -1,15 +1,17 @@
 package org.example.service;
 
 import org.example.common.HttpResult;
+import org.example.constant.DynamicConstant;
 import org.example.enums.DynamicTypeEnum;
 import org.example.exception.DynamicException;
 import org.example.param.PublishDynamicParam;
+import org.example.param.QueryDynamicPageParam;
 import org.example.util.JsonUtils;
-import org.mockito.internal.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -64,4 +66,27 @@ public class DynamicService {
     }
 
 
+    public HttpResult queryDynamicPage(QueryDynamicPageParam param) {
+        logger.info("分页查询动态，请求参数：{}",JsonUtils.objectToJson(param));
+        Integer nowPage = param.getNowPage();
+        if(ObjectUtils.isEmpty(nowPage)){
+            logger.info("分页查询动态，当前页为空，请求参数：{}",JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(DynamicException.DYNAMIC_NOW_PAGE_IS_NOT_NULL);
+        }
+        if(nowPage < DynamicConstant.DEFAULT_NOW_PAGE_MIN_PAGE){
+            logger.info("分页查询动态，当前页小于1，请求参数：{}",JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(DynamicException.DYNAMIC_NOW_PAGE_IS_NOT_LESS_ONE);
+        }
+        Integer pageSize = param.getPageSize();
+        if (ObjectUtils.isEmpty(pageSize)){
+            logger.info("分页查询动态，当前页大小为空，请求参数：{}",JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(DynamicException.DYNAMIC_PAGE_SIZE_IS_NOT_NULL);
+        }
+        if(pageSize<DynamicConstant.DEFAULT_PAGE_SIZE_MIN_VALUE){
+            logger.info("分页查询动态，当前页大小小于1，请求参数：{}",JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(DynamicException.DYNAMIC_PAGE_SIZE_IS_NOT_LESS_ONE);
+        }
+
+        return null;
+    }
 }

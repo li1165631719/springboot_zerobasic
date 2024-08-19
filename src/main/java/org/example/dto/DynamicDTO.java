@@ -50,9 +50,14 @@ public class DynamicDTO {
     private Date createdDate;
 
     /**
+     * 更新时间
+     */
+    private Date updateDate;
+
+    /**
      * 删除时间
      */
-    private Date deletdDate;
+    private Date deleteDate;
 
     /**
      * 扩展内容
@@ -132,12 +137,12 @@ public class DynamicDTO {
         this.createdDate = createdDate;
     }
 
-    public Date getDeletdDate() {
-        return deletdDate;
+    public Date getDeleteDate() {
+        return deleteDate;
     }
 
-    public void setDeletdDate(Date deletdDate) {
-        this.deletdDate = deletdDate;
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public String getExtContent() {
@@ -146,5 +151,13 @@ public class DynamicDTO {
 
     public void setExtContent(String extContent) {
         this.extContent = extContent;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

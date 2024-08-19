@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.common.HttpResult;
 import org.example.param.PublishDynamicParam;
+import org.example.param.QueryDynamicPageParam;
 import org.example.service.DynamicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,4 +27,10 @@ public class DynamicController {
     public HttpResult publishDynamic(@RequestBody PublishDynamicParam param){
         return service.publishDynamic(param);
     }
+
+    @PostMapping("/query/page")
+    public HttpResult queryDynamicPage(@RequestBody QueryDynamicPageParam param){
+        return service.queryDynamicPage(param);
+    }
+
 }

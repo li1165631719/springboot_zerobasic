@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.example.mapper.DynamicMapper">
+    <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+
+    <resultMap id="zero_basisResult" type="org.example.dto.DynamicDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="img_array" property="imgArray" jdbcType="VARCHAR"/>
+        <result column="comment_count" property="commentCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="created_date" property="createdDate" jdbcType="DATE"/>
+        <result column="update_date" property="updateDate" jdbcType="DATE"/>
+        <result column="delete_date" property="deleteDate" jdbcType="DATE"/>
+    </resultMap>
+
+
+    <sql id="table">dynamic</sql>
+    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date</sql>
+
+    <insert id="insertDynamic">
+        insert into
+        <include refid="table"/>
+        (<include refid="userFields"/>)
+        values (#{id},#{userId},#{title},#{content},#{type},#{imgArray},#{commentCount},#{status},#{createdDate},#{updateDate},#{deleteDate})
+    </insert>
+
+<!--    <select id="queryUserDTO" resultMap="zero_basisResult">-->
+<!--        select * from-->
+<!--        <include refid="table"/>-->
+<!--        where name =#{name}-->
+<!--    </select>-->
+
+<!--    <select id="queryUserDTOByUserId" resultMap="zero_basisResult">-->
+<!--        select * from-->
+<!--        <include refid="table"/>-->
+<!--        where user_id = #{userId}-->
+<!--    </select>-->
+</mapper>
