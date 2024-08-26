@@ -22,10 +22,9 @@ public enum DynamicException implements ExceptionCode {
 
     DYNAMIC_PAGE_SIZE_IS_NOT_LESS_ONE(2000007,"动态页大小不能小于1","DYNAMIC_PAGE_SIZE_IS_NOT_LESS_ONE"),
 
+    DYNAMIC_COUNT_IS_NULL(2000008,"当前条件查询数量为0","DYNAMIC_COUNT_IS_NULL"),
 
-
-
-
+    DYNAMIC_NOW_PAGE_DATA_IS_NULL(2000009,"当前页没有数据","DYNAMIC_NOW_PAGE_DATA_IS_NULL"),
     ;
 
     private Integer code;

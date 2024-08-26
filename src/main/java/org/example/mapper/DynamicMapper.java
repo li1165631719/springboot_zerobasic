@@ -1,7 +1,11 @@
 package org.example.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.dto.DynamicDTO;
+import org.example.dto.DynamicPageDTO;
+
+import java.util.List;
 
 /**
  * @Author 李志豪
@@ -12,6 +16,8 @@ public interface DynamicMapper {
 
     void insertDynamic(DynamicDTO dynamicDTO);
 
+    int queryDymamicCount();
 
 
+    List<DynamicPageDTO> queryDynamicPage(@Param("start") Integer start,@Param("pageSize") Integer pageSize);
 }

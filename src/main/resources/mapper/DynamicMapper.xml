@@ -29,13 +29,33 @@
         values (#{id},#{userId},#{title},#{content},#{type},#{imgArray},#{commentCount},#{status},#{createdDate},#{updateDate},#{deleteDate})
     </insert>
 
-<!--    <select id="queryUserDTO" resultMap="zero_basisResult">-->
-<!--        select * from-->
-<!--        <include refid="table"/>-->
-<!--        where name =#{name}-->
-<!--    </select>-->
+    <select id="queryDymamicCount" resultType="java.lang.Integer">
+        select count(*) from <include refid="table"/> where status = 1
+    </select>
 
-<!--    <select id="queryUserDTOByUserId" resultMap="zero_basisResult">-->
+
+    <resultMap id="page_result" type="org.example.dto.DynamicPageDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="username" property="name" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="img_array" property="imgArray" jdbcType="VARCHAR"/>
+        <result column="comment_count" property="commentCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="created_date" property="createdDate" jdbcType="DATE"/>
+        <result column="update_date" property="updateDate" jdbcType="DATE"/>
+        <result column="delete_date" property="deleteDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="queryDynamicPage" resultMap="page_result">
+        select *,(select name from USER where user.user_id = dynamic.user_id) as username from DYNAMIC WHERE STATUS =1
+        limit #{start},#{pageSize}
+    </select>
+
+    <!--    <select id="queryUserDTOByUserId" resultMap="zero_basisResult">-->
 <!--        select * from-->
 <!--        <include refid="table"/>-->
 <!--        where user_id = #{userId}-->

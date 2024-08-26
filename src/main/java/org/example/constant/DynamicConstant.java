@@ -21,5 +21,10 @@ public class DynamicConstant {
      */
     public static final Integer DEFAULT_PAGE_SIZE_MIN_VALUE = 1 ;
 
+    /**
+     * 默认分页查询动态数量最小数量为1
+     */
+    public static final Integer DEFALUT_DYNAMIC_COUNT_MIN_VALUE = 1 ;
+
 
 }
