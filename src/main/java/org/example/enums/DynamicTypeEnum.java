@@ -39,6 +39,10 @@ public enum DynamicTypeEnum {
         return dynamicTypeEnumMap.getOrDefault(type,null);
     }
 
+    public static Map<Integer, String> getDynamicTypeMap() {
+        return dynamicTypeMap;
+    }
+
     public Integer getType() {
         return type;
     }

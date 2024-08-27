@@ -33,6 +33,10 @@ public enum DynamicStatusEnum {
         }
     }
 
+    public static Map<Integer, String> getDynamicStatusMap() {
+        return dynamicStatusMap;
+    }
+
     public Integer getStatus() {
         return status;
     }

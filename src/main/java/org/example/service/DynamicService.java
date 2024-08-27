@@ -5,11 +5,13 @@ import org.example.common.HttpResult;
 import org.example.constant.DynamicConstant;
 import org.example.dto.DynamicDTO;
 import org.example.dto.DynamicPageDTO;
+import org.example.enums.DynamicStatusEnum;
 import org.example.enums.DynamicTypeEnum;
 import org.example.exception.DynamicException;
 import org.example.mapper.DynamicMapper;
 import org.example.param.PublishDynamicParam;
 import org.example.param.QueryDynamicPageParam;
+import org.example.result.DynamicPageResult;
 import org.example.util.JsonUtils;
 import org.example.util.QiniuPictureServiceUtils;
 import org.example.vo.DynamicVO;
@@ -141,6 +143,13 @@ public class DynamicService {
             dynamicVO.setExtContent(item.getExtContent());//扩展内容
             voList.add(dynamicVO);
         });
-        return new HttpResult(voList);
+
+        DynamicPageResult dynamicPageResult = new DynamicPageResult();
+        dynamicPageResult.setData(voList);
+        dynamicPageResult.setTotal(count);
+        dynamicPageResult.setDynamicStatusEnum(DynamicStatusEnum.getDynamicStatusMap());
+        dynamicPageResult.setDynmaicTypeEnum(DynamicTypeEnum.getDynamicTypeMap());
+
+        return new HttpResult(dynamicPageResult);
     }
 }
