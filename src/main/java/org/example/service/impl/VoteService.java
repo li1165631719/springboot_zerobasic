@@ -20,6 +20,14 @@ public class VoteService implements DynamicManage {
     }
 
     @Override
+    public HttpResult dealDynamicExtContent(String extContent) {
+        /**
+         * TODO
+         */
+        return null;
+    }
+
+    @Override
     public Integer getType() {
         return DynamicTypeEnum.VOTE.getType();
     }

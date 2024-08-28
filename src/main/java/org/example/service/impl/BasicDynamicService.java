@@ -63,6 +63,11 @@ public class BasicDynamicService implements DynamicManage {
     }
 
     @Override
+    public HttpResult dealDynamicExtContent(String extContent) {
+        return null;
+    }
+
+    @Override
     public Integer getType() {
         return DynamicTypeEnum.BASIC.getType();
     }

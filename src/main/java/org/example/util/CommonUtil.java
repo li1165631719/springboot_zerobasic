@@ -1,5 +1,8 @@
 package org.example.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -21,5 +24,14 @@ public class CommonUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getNowDayFormat(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(CommonUtil.getNowDayFormat(new Date()));
     }
 }

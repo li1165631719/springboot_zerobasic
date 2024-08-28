@@ -14,7 +14,7 @@ public class PunchCardModel {
     /**
      * 打卡时间
      */
-    private Date punCardDare;
+    private Date punCardDate;
 
     /**
      * 打卡用语

@@ -11,5 +11,7 @@ public interface DynamicManage {
 
     public HttpResult dealDynamicPublishRequset(PublishDynamicParam param);
 
+    public HttpResult dealDynamicExtContent(String extContent);
+
     public Integer getType();
 }

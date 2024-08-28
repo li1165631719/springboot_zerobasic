@@ -140,7 +140,12 @@ public class DynamicService {
             dynamicVO.setCreatedDate(item.getCreatedDate());//创建时间
             dynamicVO.setUpdateDate(item.getUpdateDate());//更新时间
             dynamicVO.setDeleteDate(item.getDeleteDate());//删除时间
-            dynamicVO.setExtContent(item.getExtContent());//扩展内容
+            if (!DynamicTypeEnum.BASIC.getType().equals(item.getType())) {
+                HttpResult ext = dynamicManageList.stream().
+                        filter(temp -> item.getType().equals(temp.getType())).
+                        findFirst().get().dealDynamicExtContent(item.getExtContent());
+                dynamicVO.setExt(ext.getData());
+            }
             voList.add(dynamicVO);
         });
 

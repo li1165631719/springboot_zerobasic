@@ -16,17 +16,18 @@
         <result column="created_date" property="createdDate" jdbcType="DATE"/>
         <result column="update_date" property="updateDate" jdbcType="DATE"/>
         <result column="delete_date" property="deleteDate" jdbcType="DATE"/>
+        <result column="extend_content" property="extContent" jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <sql id="table">dynamic</sql>
-    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date</sql>
+    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date,ext_content</sql>
 
     <insert id="insertDynamic">
         insert into
         <include refid="table"/>
         (<include refid="userFields"/>)
-        values (#{id},#{userId},#{title},#{content},#{type},#{imgArray},#{commentCount},#{status},#{createdDate},#{updateDate},#{deleteDate})
+        values (#{id},#{userId},#{title},#{content},#{type},#{imgArray},#{commentCount},#{status},#{createdDate},#{updateDate},#{deleteDate},#{extContent})
     </insert>
 
     <select id="queryDymamicCount" resultType="java.lang.Integer">
@@ -48,6 +49,7 @@
         <result column="created_date" property="createdDate" jdbcType="DATE"/>
         <result column="update_date" property="updateDate" jdbcType="DATE"/>
         <result column="delete_date" property="deleteDate" jdbcType="DATE"/>
+        <result column="extend_content" property="extContent" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="queryDynamicPage" resultMap="page_result">
