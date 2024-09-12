@@ -13,7 +13,7 @@ public class VoteParam {
      */
     private String voteTitle;
 
-    private List<VoteOptionParam> optionList =new ArrayList<>();
+    private List<VoteOptionParam> optionList;
 
     public String getVoteTitle() {
         return voteTitle;

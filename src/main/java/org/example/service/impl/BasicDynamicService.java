@@ -37,10 +37,7 @@ public class BasicDynamicService implements DynamicManage {
     public HttpResult dealDynamicPublishRequset(PublishDynamicParam param) {
         String userId = hostHolder.getUser().getUserId();
         logger.info("开始发布基础的图文动态，userId:{},请求参数：{}", userId, JsonUtils.objectToJson(param));
-
-
         try {
-
             DynamicDTO dynamicDTO = new DynamicDTO();
             dynamicDTO.setId(CommonUtil.generateUUID());
             dynamicDTO.setUserId(userId);
@@ -59,7 +56,6 @@ public class BasicDynamicService implements DynamicManage {
             e.printStackTrace();
             return HttpResult.fail();
         }
-
     }
 
     @Override

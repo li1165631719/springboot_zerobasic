@@ -26,5 +26,14 @@ public class DynamicConstant {
      */
     public static final Integer DEFALUT_DYNAMIC_COUNT_MIN_VALUE = 1 ;
 
+    /**
+     * 默认投票选项最小数量为1
+     */
+    public static final Integer DEFAULT_VOTE_OPTIONS_SIZE_MIN = 1;
+
+    /**
+     * 默认投票选项的投票数为0
+     */
+    public static final Integer DEFAULT_VOTE_COUNT_VALUE = 0;
 
 }

@@ -1,9 +1,7 @@
 package org.example.service;
 
-import net.minidev.json.JSONUtil;
 import org.example.common.HttpResult;
 import org.example.constant.DynamicConstant;
-import org.example.dto.DynamicDTO;
 import org.example.dto.DynamicPageDTO;
 import org.example.enums.DynamicStatusEnum;
 import org.example.enums.DynamicTypeEnum;
@@ -63,20 +61,18 @@ public class DynamicService {
             logger.info("开始发布动态，类型不存在，请求参数：{}", JsonUtils.objectToJson(param));
             return HttpResult.generateHttpResult(DynamicException.DYNAMIC_TYPE_IS_NOT_EXIST);
         }
+        HttpResult result = null;
         try {
-
             logger.info("开始发布动态，请求参数：{}", type);
-
             //通过依赖注入，将spring容器实例化的对象传入dynamicManageList，
             // 再通过stream流根据type筛选出对应的功能，再调用对应的逻辑方法
-            dynamicManageList.stream()
+            result = dynamicManageList.stream()
                     .filter(item -> type.equals(item.getType()))
                     .findFirst().get().dealDynamicPublishRequset(param);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
+        return result;
     }
 
 

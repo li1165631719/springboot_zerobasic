@@ -43,6 +43,10 @@ public class PunchCardService implements DynamicManage {
         String userId = hostHolder.getUser().getUserId();
         logger.info("开始打卡发布，userId:{},请求参数:{}", userId,JsonUtils.objectToJson(param));
         PunchCardParam punchCardParam = param.getPunchCardParam();
+        if(ObjectUtils.isEmpty(punchCardParam)){
+            logger.info("开始打卡发布，PublishDynamicParam请求体为空，请求参数为：{}",JsonUtils.objectToJson(param));
+            return HttpResult.fail();
+        }
         Date punchCardDate = punchCardParam.getPunchCardDate();
         String punchCardContent = punchCardParam.getPunchCardContent();
 

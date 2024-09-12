@@ -21,7 +21,7 @@
 
 
     <sql id="table">dynamic</sql>
-    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date,ext_content</sql>
+    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date,extend_content</sql>
 
     <insert id="insertDynamic">
         insert into

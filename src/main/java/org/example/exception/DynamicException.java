@@ -25,6 +25,10 @@ public enum DynamicException implements ExceptionCode {
     DYNAMIC_COUNT_IS_NULL(2000008,"当前条件查询数量为0","DYNAMIC_COUNT_IS_NULL"),
 
     DYNAMIC_NOW_PAGE_DATA_IS_NULL(2000009,"当前页没有数据","DYNAMIC_NOW_PAGE_DATA_IS_NULL"),
+
+    DYNAMIC_VOTE_TITLE_IS_NULL(2000010,"投票标题为空","DYNAMIC_VOTE_TITLE_IS_NULL"),
+
+    DYNAMIC_VOTE_OPTIONLIST_IS_NULL(2000011,"投票选项为空或投票选项个数小于1","DYNAMIC_VOTE_OPTIONLIST_IS_NULL"),
     ;
 
     private Integer code;
