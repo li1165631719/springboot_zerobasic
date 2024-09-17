@@ -1,6 +1,9 @@
 package org.example.controller;
 
+import org.example.common.HttpResult;
+import org.example.message.MessageConstant;
 import org.example.service.TestService;
+import org.example.util.JedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +46,14 @@ public class TestController {
     public String testMysqlQuery1(@RequestParam("id") String id){
         logger.info("查询test的content，查询id："+id);
         return testService.testMysqlQuery(id);
+    }
+
+    @Autowired
+    JedisUtil jedisUtil;
+
+    @PostMapping("/send")
+    public HttpResult sendMessage(@RequestParam("message") String message){
+        jedisUtil.lpush(MessageConstant.ASYNC_LIST_NAME,message);
+        return HttpResult.ok();
     }
 }

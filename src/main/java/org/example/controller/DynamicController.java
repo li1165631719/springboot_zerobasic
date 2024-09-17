@@ -1,14 +1,14 @@
 package org.example.controller;
 
+import org.checkerframework.checker.units.qual.A;
 import org.example.common.HttpResult;
+import org.example.message.MessageConstant;
 import org.example.param.PublishDynamicParam;
 import org.example.param.QueryDynamicPageParam;
 import org.example.service.DynamicService;
+import org.example.util.JedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author 李志豪
@@ -32,5 +32,8 @@ public class DynamicController {
     public HttpResult queryDynamicPage(@RequestBody QueryDynamicPageParam param){
         return service.queryDynamicPage(param);
     }
+
+
+
 
 }
