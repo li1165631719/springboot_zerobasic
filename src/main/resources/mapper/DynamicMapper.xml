@@ -57,6 +57,11 @@
         limit #{start},#{pageSize}
     </select>
 
+    <select id="queryDynamicById" resultMap="zero_basisResult">
+        select * from
+        <include refid="table"/> where id = #{id} and status = 1
+    </select>
+
     <!--    <select id="queryUserDTOByUserId" resultMap="zero_basisResult">-->
 <!--        select * from-->
 <!--        <include refid="table"/>-->

@@ -20,4 +20,6 @@ public interface DynamicMapper {
 
 
     List<DynamicPageDTO> queryDynamicPage(@Param("start") Integer start,@Param("pageSize") Integer pageSize);
+
+    DynamicDTO queryDynamicById(@Param("id") String dynamicId);
 }

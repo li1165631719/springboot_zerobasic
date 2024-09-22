@@ -2,14 +2,25 @@ package org.example.service;
 
 import org.example.common.HttpResult;
 import org.example.constant.DynamicConstant;
+import org.example.dto.CommentDTO;
+import org.example.dto.DynamicDTO;
 import org.example.dto.DynamicPageDTO;
+import org.example.dto.VoteDTO;
 import org.example.enums.DynamicStatusEnum;
 import org.example.enums.DynamicTypeEnum;
+import org.example.enums.EntityTypeEnum;
 import org.example.exception.DynamicException;
+import org.example.local.HostHolder;
 import org.example.mapper.DynamicMapper;
+import org.example.message.MessageDTO;
+import org.example.message.MessageProducer;
+import org.example.message.MessageTypeEnum;
+import org.example.param.CommentParam;
 import org.example.param.PublishDynamicParam;
 import org.example.param.QueryDynamicPageParam;
+import org.example.param.TakeVoteParam;
 import org.example.result.DynamicPageResult;
+import org.example.util.CommonUtil;
 import org.example.util.JsonUtils;
 import org.example.util.QiniuPictureServiceUtils;
 import org.example.vo.DynamicVO;
@@ -38,6 +49,12 @@ public class DynamicService {
 
     @Autowired
     private DynamicMapper dynamicMapper;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @Autowired
+    private MessageProducer messageProducer;
 
     @Autowired
     private QiniuPictureServiceUtils qiniuPictureServiceUtils;
@@ -152,5 +169,96 @@ public class DynamicService {
         dynamicPageResult.setDynmaicTypeEnum(DynamicTypeEnum.getDynamicTypeMap());
 
         return new HttpResult(dynamicPageResult);
+    }
+
+    public HttpResult comment(CommentParam param) {
+        String userID = hostHolder.getUser().getUserId();
+        logger.info("开始评论, 请求参数:{}", JsonUtils.objectToJson(param));
+        Integer entityType = param.getEntity_type();
+        if(ObjectUtils.isEmpty(entityType)) {
+            logger.info("开始评论, 评论实体类型为空, 请求参数:{}", JsonUtils.objectToJson(param));
+            return HttpResult.fail();
+        }
+        if(EntityTypeEnum.getEntityTypeEnumMap(entityType) == null) {
+            logger.info("开始评论, 评论实体类型不正确, 请求参数:{}", JsonUtils.objectToJson(param));
+            return HttpResult.fail();
+        }
+        String entityId = param.getEntity_id();
+        if(StringUtils.isEmpty(entityId)) {
+            return HttpResult.fail();
+        }
+        /**
+         * TODO 验证entityID所属的实体是否存在
+         */
+
+        String content = param.getContent();
+        if(org.apache.commons.lang3.StringUtils.isEmpty(content)) {
+            return HttpResult.fail();
+        }
+
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(CommonUtil.generateUUID());
+        commentDTO.setEntity_type(entityType);
+        commentDTO.setEntity_id(entityId);
+        commentDTO.setContent(content);
+        commentDTO.setCreateDate(new Date());
+        commentDTO.setUserId(userID);
+
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setId(CommonUtil.generateUUID());
+        messageDTO.setUserId(userID);
+        messageDTO.setType(MessageTypeEnum.COMMENT_MESSAGE.getType());
+        messageDTO.setCreateDate(new Date());
+        messageDTO.setMessage(JsonUtils.objectToJson(commentDTO));
+        logger.info("评论成功，产生异步消息需要处理，消息:{}", JsonUtils.objectToJson(messageDTO));
+        messageProducer.produceMessage(JsonUtils.objectToJson(messageDTO));
+
+        return HttpResult.ok();
+    }
+
+    public HttpResult vote(TakeVoteParam param) {
+        String userID = hostHolder.getUser().getUserId();
+        logger.info("开始投票,userID:{},请求参数:{}",userID,JsonUtils.objectToJson(param));
+        String dynamicId = param.getDynamicId();
+        if (StringUtils.isEmpty(dynamicId)){
+            return HttpResult.fail();
+        }
+        String voteOptionID = param.getVoteOptionId();
+        if (StringUtils.isEmpty(voteOptionID)){
+            return HttpResult.fail();
+        }
+        DynamicDTO dynamicDTO = dynamicMapper.queryDynamicById(dynamicId);
+        if(ObjectUtils.isEmpty(dynamicDTO)){
+            return HttpResult.fail();
+        }
+        Integer type = dynamicDTO.getType();
+        if (DynamicTypeEnum.VOTE.getType().equals(type)){
+            return HttpResult.fail();
+        }
+        String extContent =dynamicDTO.getExtContent();
+        if (StringUtils.isEmpty(extContent)){
+            return HttpResult.fail();
+        }
+        VoteDTO voteDTO = null;
+        try {
+            voteDTO = JsonUtils.jsonToPojo(extContent,VoteDTO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        if (ObjectUtils.isEmpty(voteDTO)){
+            return HttpResult.fail();
+        }
+        voteDTO.getOptionList().forEach(item->{
+            if (item.getId().equals(voteOptionID)){
+                 item.setVoteCount(item.getVoteCount()+1);
+            }
+        });
+        voteDTO.setVoteTakeCount(voteDTO.getVoteTakeCount()+1);
+        /**
+         * TODO 将信息更新到记录中
+         * TODO 作业，1、完成投票的更新操作 2、完成消息发送，被投票的人接受到有人参与的消息
+         */
+        return HttpResult.ok();
     }
 }

@@ -1,16 +1,39 @@
-package org.example.param;
+package org.example.dto;
 
-public class CommentParam {
+import java.util.Date;
+
+public class CommentDTO {
+
+    private String id;
+
+    private String userId;
 
     /**
      * {@link org.example.enums.EntityTypeEnum}
-     *
      */
     private Integer entity_type;
 
     private String entity_id;
 
     private String content;
+
+    private Date createDate;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public Integer getEntity_type() {
         return entity_type;
@@ -34,5 +57,13 @@ public class CommentParam {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

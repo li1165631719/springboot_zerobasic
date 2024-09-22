@@ -30,6 +30,10 @@ public enum EntityTypeEnum {
         }
     }
 
+    public static EntityTypeEnum getEntityTypeEnumMap(Integer entityType) {
+        return entityTypeEnumMap.getOrDefault(entityType, null);
+    }
+
     public Integer getType() {
         return type;
     }

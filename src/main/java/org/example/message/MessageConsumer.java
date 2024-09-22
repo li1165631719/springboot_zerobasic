@@ -1,11 +1,18 @@
 package org.example.message;
 
+import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.units.qual.A;
+import org.example.controller.LoginController;
 import org.example.util.JedisUtil;
+import org.example.util.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,10 +23,15 @@ import java.util.concurrent.Executors;
 @Service
 public class MessageConsumer {
 
+    Logger logger = LoggerFactory.getLogger(MessageConsumer.class);
+
     ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Autowired
     private JedisUtil jedisUtil;
+
+    @Autowired
+    List<MessageManage> messageManages;
 
     @PostConstruct
     public void consumerMessage(){
@@ -34,6 +46,20 @@ public class MessageConsumer {
             if(jedisUtil.llen(MessageConstant.ASYNC_LIST_NAME)>3){
                 String message = jedisUtil.rpop(MessageConstant.ASYNC_LIST_NAME);
                 System.out.println("消费者从异步队列中获取消息："+message);
+                logger.info("开始消费消息:{}",message);
+                try{
+                    MessageDTO messageDTO = JsonUtils.jsonToPojo(message, MessageDTO.class);
+                    if(ObjectUtils.isEmpty(messageDTO)){
+                        continue;
+                    }
+                    String type = messageDTO.getType();
+                    //匹配消息处理器
+                    messageManages.stream().filter(item->item.getMessageType().equals(type
+                    )).findFirst().get().dealMessage(messageDTO);
+                }catch (Exception e){
+                    logger.info("消息处理发生异常：{}",message);
+                    e.printStackTrace();
+                }
             }
         }
     }
