@@ -11,13 +11,17 @@ public class CommentDTO {
     /**
      * {@link org.example.enums.EntityTypeEnum}
      */
-    private Integer entity_type;
+    private Integer entityType;
 
-    private String entity_id;
+    private String entityId;
 
     private String content;
 
     private Date createDate;
+
+    private String dynamicId;
+
+    private Integer status;
 
     public String getId() {
         return id;
@@ -35,20 +39,20 @@ public class CommentDTO {
         this.userId = userId;
     }
 
-    public Integer getEntity_type() {
-        return entity_type;
+    public Integer getEntityType() {
+        return entityType;
     }
 
-    public void setEntity_type(Integer entity_type) {
-        this.entity_type = entity_type;
+    public void setEntityType(Integer entityType) {
+        this.entityType = entityType;
     }
 
-    public String getEntity_id() {
-        return entity_id;
+    public String getEntityId() {
+        return entityId;
     }
 
-    public void setEntity_id(String entity_id) {
-        this.entity_id = entity_id;
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
     }
 
     public String getContent() {
@@ -65,5 +69,21 @@ public class CommentDTO {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getDynamicId() {
+        return dynamicId;
+    }
+
+    public void setDynamicId(String dynamicId) {
+        this.dynamicId = dynamicId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

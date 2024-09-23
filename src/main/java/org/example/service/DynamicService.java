@@ -6,11 +6,13 @@ import org.example.dto.CommentDTO;
 import org.example.dto.DynamicDTO;
 import org.example.dto.DynamicPageDTO;
 import org.example.dto.VoteDTO;
+import org.example.enums.CommentStatusEnum;
 import org.example.enums.DynamicStatusEnum;
 import org.example.enums.DynamicTypeEnum;
 import org.example.enums.EntityTypeEnum;
 import org.example.exception.DynamicException;
 import org.example.local.HostHolder;
+import org.example.mapper.CommentMapper;
 import org.example.mapper.DynamicMapper;
 import org.example.message.MessageDTO;
 import org.example.message.MessageProducer;
@@ -49,6 +51,9 @@ public class DynamicService {
 
     @Autowired
     private DynamicMapper dynamicMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private HostHolder hostHolder;
@@ -188,8 +193,28 @@ public class DynamicService {
             return HttpResult.fail();
         }
         /**
-         * TODO 验证entityID所属的实体是否存在
+         * 验证entityID所属的实体是否存在
          */
+        String dynamicId = "";
+        //评论有两种情况：1、动态下的评论 2、评论下的评论  根据entityType去判断
+        //1、动态下的评论
+        if(EntityTypeEnum.DYNAMIC.getType().equals(entityType)){
+            DynamicDTO dynamicDTO = dynamicMapper.queryDynamicById(entityId);
+            if (ObjectUtils.isEmpty(dynamicDTO)){
+                logger.info("动态查询不存在");
+                return HttpResult.fail();
+            }
+            dynamicId = dynamicDTO.getId();
+        }
+        //2、评论下的评论
+        if (EntityTypeEnum.COMMENT.getType().equals(entityType)){
+            CommentDTO commentDTO = commentMapper.queryCommentById(entityId);
+            if (ObjectUtils.isEmpty(commentDTO)){
+                logger.info("评论查询不存在");
+                return HttpResult.fail();
+            }
+            dynamicId = commentDTO.getId();
+        }
 
         String content = param.getContent();
         if(org.apache.commons.lang3.StringUtils.isEmpty(content)) {
@@ -198,11 +223,14 @@ public class DynamicService {
 
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(CommonUtil.generateUUID());
-        commentDTO.setEntity_type(entityType);
-        commentDTO.setEntity_id(entityId);
+        commentDTO.setEntityType(entityType);
+        commentDTO.setEntityId(entityId);
         commentDTO.setContent(content);
         commentDTO.setCreateDate(new Date());
         commentDTO.setUserId(userID);
+        commentDTO.setDynamicId(dynamicId);
+        commentDTO.setStatus(CommentStatusEnum.NORMAL.getStatus());
+
 
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setId(CommonUtil.generateUUID());
@@ -251,7 +279,7 @@ public class DynamicService {
         }
         voteDTO.getOptionList().forEach(item->{
             if (item.getId().equals(voteOptionID)){
-                 item.setVoteCount(item.getVoteCount()+1);
+                item.setVoteCount(item.getVoteCount()+1);
             }
         });
         voteDTO.setVoteTakeCount(voteDTO.getVoteTakeCount()+1);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.example.mapper.CommentMapper">
+    <!--namespace根据自己需要创建的的mapper的路径和名称填写-->
+    <resultMap id="zero_basisResult" type="org.example.dto.CommentDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="entity_type" property="entityType" jdbcType="INTEGER"/>
+        <result column="entity_id" property="entityId" jdbcType="VARCHAR"/>
+        <result column="head_url" property="content" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="table">comment</sql>
+    <sql id="loginTicketFeilds">id, user_id, entity_type, entity_id, head_url, create_date</sql>
+
+    <select id="queryCommentById" resultType="org.example.dto.CommentDTO">
+         select * from
+        <include refid="table"></include> where entity_id =#{id}
+    </select>
+
+
+</mapper>
