@@ -231,6 +231,7 @@ public class DynamicService {
         commentDTO.setDynamicId(dynamicId);
         commentDTO.setStatus(CommentStatusEnum.NORMAL.getStatus());
 
+        commentMapper.addComment(commentDTO);
 
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setId(CommonUtil.generateUUID());

@@ -7,4 +7,6 @@ import org.example.dto.CommentDTO;
 @Mapper
 public interface CommentMapper {
     CommentDTO queryCommentById(@Param("id") String entityId);
+
+    void addComment(CommentDTO commentDTO);
 }
