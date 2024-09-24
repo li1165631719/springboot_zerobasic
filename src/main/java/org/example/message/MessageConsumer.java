@@ -43,19 +43,19 @@ public class MessageConsumer {
         //lpop后进先出  栈的模式
         //rpop先进先出  队列的模式
         while(true){
-            if(jedisUtil.llen(MessageConstant.ASYNC_LIST_NAME)>3){
+            if(jedisUtil.llen(MessageConstant.ASYNC_LIST_NAME)>0){
                 String message = jedisUtil.rpop(MessageConstant.ASYNC_LIST_NAME);
                 System.out.println("消费者从异步队列中获取消息："+message);
                 logger.info("开始消费消息:{}",message);
                 try{
-                    MessageDTO messageDTO = JsonUtils.jsonToPojo(message, MessageDTO.class);
-                    if(ObjectUtils.isEmpty(messageDTO)){
+                    AsyncMessageDTO asyncMessageDTO = JsonUtils.jsonToPojo(message, AsyncMessageDTO.class);
+                    if(ObjectUtils.isEmpty(asyncMessageDTO)){
                         continue;
                     }
-                    String type = messageDTO.getType();
+                    String type = asyncMessageDTO.getType();
                     //匹配消息处理器
                     messageManages.stream().filter(item->item.getMessageType().equals(type
-                    )).findFirst().get().dealMessage(messageDTO);
+                    )).findFirst().get().dealMessage(asyncMessageDTO);
                 }catch (Exception e){
                     logger.info("消息处理发生异常：{}",message);
                     e.printStackTrace();

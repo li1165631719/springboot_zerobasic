@@ -21,14 +21,19 @@
 
 
     <sql id="table">dynamic</sql>
-    <sql id="userFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date,extend_content</sql>
+    <sql id="dynamicFields">id,user_id,title,content,type,img_array,comment_count,status,created_date,update_date,delete_date,extend_content</sql>
 
     <insert id="insertDynamic">
         insert into
         <include refid="table"/>
-        (<include refid="userFields"/>)
+        (<include refid="dynamicFields"/>)
         values (#{id},#{userId},#{title},#{content},#{type},#{imgArray},#{commentCount},#{status},#{createdDate},#{updateDate},#{deleteDate},#{extContent})
     </insert>
+    <update id="updateCommentCountById">
+        update <include refid="table"></include>
+        set comment_count=#{commentCount}
+        where id = #{dynamicId}
+    </update>
 
     <select id="queryDymamicCount" resultType="java.lang.Integer">
         select count(*) from <include refid="table"/> where status = 1

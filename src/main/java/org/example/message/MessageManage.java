@@ -6,7 +6,7 @@ package org.example.message;
  */
 public interface MessageManage {
 
-    public void dealMessage(MessageDTO messageDTO);
+    public void dealMessage(AsyncMessageDTO asyncMessageDTO);
 
     public String getMessageType();
 }

@@ -6,4 +6,5 @@ package org.example.message;
  */
 public class MessageConstant {
     public static final String ASYNC_LIST_NAME ="ASYNC:LIST";
+
 }

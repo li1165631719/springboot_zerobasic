@@ -4,6 +4,7 @@ public enum MessageTypeEnum {
 
     COMMENT_MESSAGE("COMMENT_MESSAGE", "评论产生的异步消息"),
 
+    VOTE_MESSAGE("VOTE_MESSAGE", "投票产生的异步消息"),
     ;
 
     private String type;

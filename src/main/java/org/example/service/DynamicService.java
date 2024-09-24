@@ -14,9 +14,12 @@ import org.example.exception.DynamicException;
 import org.example.local.HostHolder;
 import org.example.mapper.CommentMapper;
 import org.example.mapper.DynamicMapper;
-import org.example.message.MessageDTO;
-import org.example.message.MessageProducer;
+import org.example.mapper.VoteMapper;
+import org.example.message.AsyncMessageDTO;
+import org.example.message.MessageConstant;
 import org.example.message.MessageTypeEnum;
+import org.example.message.dto.CommentMessageDTO;
+import org.example.message.producer.MessageProducer;
 import org.example.param.CommentParam;
 import org.example.param.PublishDynamicParam;
 import org.example.param.QueryDynamicPageParam;
@@ -54,6 +57,9 @@ public class DynamicService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private VoteMapper voteMapper;
 
     @Autowired
     private HostHolder hostHolder;
@@ -233,14 +239,19 @@ public class DynamicService {
 
         commentMapper.addComment(commentDTO);
 
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setId(CommonUtil.generateUUID());
-        messageDTO.setUserId(userID);
-        messageDTO.setType(MessageTypeEnum.COMMENT_MESSAGE.getType());
-        messageDTO.setCreateDate(new Date());
-        messageDTO.setMessage(JsonUtils.objectToJson(commentDTO));
-        logger.info("评论成功，产生异步消息需要处理，消息:{}", JsonUtils.objectToJson(messageDTO));
-        messageProducer.produceMessage(JsonUtils.objectToJson(messageDTO));
+        AsyncMessageDTO asyncMessageDTO = new AsyncMessageDTO();
+        asyncMessageDTO.setId(CommonUtil.generateUUID());
+        asyncMessageDTO.setUserId(userID);
+        asyncMessageDTO.setType(MessageTypeEnum.COMMENT_MESSAGE.getType());
+        asyncMessageDTO.setCreateDate(new Date());
+        asyncMessageDTO.setMessage(commentDTO.getId());
+
+        CommentMessageDTO commentMessageDTO = new CommentMessageDTO();
+        commentMessageDTO.setId(commentDTO.getId());
+        asyncMessageDTO.setMessage(JsonUtils.objectToJson(commentMessageDTO));
+
+        logger.info("评论成功，产生异步消息需要处理，消息:{}", JsonUtils.objectToJson(asyncMessageDTO));
+        messageProducer.produceMessage(JsonUtils.objectToJson(asyncMessageDTO));
 
         return HttpResult.ok();
     }
@@ -288,6 +299,18 @@ public class DynamicService {
          * TODO 将信息更新到记录中
          * TODO 作业，1、完成投票的更新操作 2、完成消息发送，被投票的人接受到有人参与的消息
          */
+        //1、完成投票的更新操作
+        voteMapper.updateExt(JsonUtils.objectToJson(voteDTO),dynamicId);
+
+        //2、完成消息发送，被投票的人接受到有人参与的消息
+        AsyncMessageDTO asyncMessageDTO = new AsyncMessageDTO();
+        asyncMessageDTO.setId(CommonUtil.generateUUID());
+        asyncMessageDTO.setUserId(userID);
+        asyncMessageDTO.setType(MessageTypeEnum.VOTE_MESSAGE.getType());
+        asyncMessageDTO.setCreateDate(new Date());
+        asyncMessageDTO.setMessage(JsonUtils.objectToJson(param));
+        messageProducer.produceMessage(JsonUtils.objectToJson(asyncMessageDTO));
+
         return HttpResult.ok();
     }
 }

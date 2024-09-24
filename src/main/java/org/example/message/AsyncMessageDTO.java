@@ -2,7 +2,7 @@ package org.example.message;
 
 import java.util.Date;
 
-public class MessageDTO {
+public class AsyncMessageDTO {
 
     private String id;
 
