@@ -10,6 +10,7 @@ import org.example.enums.CommentStatusEnum;
 import org.example.enums.DynamicStatusEnum;
 import org.example.enums.DynamicTypeEnum;
 import org.example.enums.EntityTypeEnum;
+import org.example.exception.CommentException;
 import org.example.exception.DynamicException;
 import org.example.local.HostHolder;
 import org.example.mapper.CommentMapper;
@@ -316,6 +317,26 @@ public class DynamicService {
     }
 
     public HttpResult queryCommentPage(QueryCommentPageParam param) {
+        logger.info("分页查询评论，请求参数：{}", JsonUtils.objectToJson(param));
+        Integer nowPage = param.getNowPage();
+        if (ObjectUtils.isEmpty(nowPage)) {
+            logger.info("分页查询评论，当前页为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(CommentException.Comment_NOW_PAGE_IS_NOT_NULL);
+        }
+        if (nowPage < DynamicConstant.Comment_DEFAULT_NOW_PAGE_MIN_PAGE) {
+            logger.info("分页查询评论，当前页小于1，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(CommentException.Comment_NOW_PAGE_IS_NOT_LESS_ONE);
+        }
+        Integer pageSize = param.getPageSize();
+        if (ObjectUtils.isEmpty(pageSize)) {
+            logger.info("分页查询评论，当前页大小为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(CommentException.Comment_PAGE_SIZE_IS_NOT_NULL);
+        }
+        if (pageSize < DynamicConstant.DEFAULT_PAGE_SIZE_MIN_VALUE) {
+            logger.info("分页查询动态，当前页大小小于1，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(CommentException.Comment_PAGE_SIZE_IS_NOT_LESS_ONE);
+        }
+
 
         return HttpResult.ok();
     }

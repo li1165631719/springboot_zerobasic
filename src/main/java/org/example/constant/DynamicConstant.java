@@ -36,4 +36,9 @@ public class DynamicConstant {
      */
     public static final Integer DEFAULT_VOTE_COUNT_VALUE = 0;
 
+    /**
+     * 评论分页查询，默认当前页最小值是1
+     */
+    public static final Integer Comment_DEFAULT_NOW_PAGE_MIN_PAGE = 1 ;
+
 }
