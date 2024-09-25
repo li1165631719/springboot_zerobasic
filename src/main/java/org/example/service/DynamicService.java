@@ -19,11 +19,9 @@ import org.example.message.AsyncMessageDTO;
 import org.example.message.MessageConstant;
 import org.example.message.MessageTypeEnum;
 import org.example.message.dto.CommentMessageDTO;
+import org.example.message.dto.TakeVoteMessageDTO;
 import org.example.message.producer.MessageProducer;
-import org.example.param.CommentParam;
-import org.example.param.PublishDynamicParam;
-import org.example.param.QueryDynamicPageParam;
-import org.example.param.TakeVoteParam;
+import org.example.param.*;
 import org.example.result.DynamicPageResult;
 import org.example.util.CommonUtil;
 import org.example.util.JsonUtils;
@@ -223,7 +221,7 @@ public class DynamicService {
         }
 
         String content = param.getContent();
-        if(org.apache.commons.lang3.StringUtils.isEmpty(content)) {
+        if(StringUtils.isEmpty(content)) {
             return HttpResult.fail();
         }
 
@@ -308,8 +306,16 @@ public class DynamicService {
         asyncMessageDTO.setUserId(userID);
         asyncMessageDTO.setType(MessageTypeEnum.VOTE_MESSAGE.getType());
         asyncMessageDTO.setCreateDate(new Date());
-        asyncMessageDTO.setMessage(JsonUtils.objectToJson(param));
+        TakeVoteMessageDTO takeVoteMessageDTO = new TakeVoteMessageDTO();
+        takeVoteMessageDTO.setDynamicId(param.getDynamicId());
+        takeVoteMessageDTO.setVoteOptionId(param.getVoteOptionId());
+        asyncMessageDTO.setMessage(JsonUtils.objectToJson(takeVoteMessageDTO));
         messageProducer.produceMessage(JsonUtils.objectToJson(asyncMessageDTO));
+
+        return HttpResult.ok();
+    }
+
+    public HttpResult queryCommentPage(QueryCommentPageParam param) {
 
         return HttpResult.ok();
     }

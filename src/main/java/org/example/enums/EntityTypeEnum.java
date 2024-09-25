@@ -7,6 +7,7 @@ public enum EntityTypeEnum {
 
     DYNAMIC(1,"动态","DYNAMIC"),
     COMMENT(2,"评论","COMMENT"),
+    VOTE(3,"投票","VOTE"),
 
     ;
 

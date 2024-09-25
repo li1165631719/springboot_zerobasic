@@ -14,14 +14,14 @@ public class InformDTO {
     //消息回复者id
     private String takeUserId;
 
-    //消息回复内容
+    //消息发送内容
     private String content;
 
     //被回复消息主体id
     private String entityId;
 
     //被回复消息主题类型
-    private String entityType;
+    private Integer entityType;
 
     public String getId() {
         return id;
@@ -63,11 +63,12 @@ public class InformDTO {
         this.entityId = entityId;
     }
 
-    public String getEntityType() {
+
+    public Integer getEntityType() {
         return entityType;
     }
 
-    public void setEntityType(String entityType) {
+    public void setEntityType(Integer entityType) {
         this.entityType = entityType;
     }
 }

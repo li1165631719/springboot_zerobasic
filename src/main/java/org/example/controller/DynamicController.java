@@ -42,6 +42,10 @@ public class DynamicController {
         return service.vote(param);
     }
 
+    @PostMapping("/query/comment")
+    public HttpResult queryCommentPage(@RequestBody QueryCommentPageParam param){
+        return service.queryCommentPage(param);
+    }
     /**
      * TODO 1、评论分页查询
      * TODO 2、消息通知
