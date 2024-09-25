@@ -22,9 +22,30 @@
         values (#{id},#{userId},#{entityType},#{entityId},#{content},#{createDate},#{dynamicId},#{status})
     </insert>
 
-    <select id="queryCommentById" resultType="org.example.dto.CommentDTO">
+    <select id="queryCommentById" resultMap="zero_basisResult">
          select * from
-        <include refid="table"></include> where entity_id =#{id}
+        <include refid="table"></include> where entity_id =#{id} and status = 1
+    </select>
+
+    <select id="queryCommentCount" resultType="java.lang.Integer">
+        select count(*) from <include refid="table"></include> WHERE STATUS =1
+    </select>
+
+    <resultMap id="page_result" type="org.example.dto.CommentPageDTO">
+        <!--id代表主键，result代表属性-->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="entity_type" property="entityType" jdbcType="INTEGER"/>
+        <result column="entity_id" property="entityId" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="DATE"/>
+        <result column="dynamic_id" property="dynamicId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="queryCommentPage"  resultMap="page_result">
+        select *,(select name from USER where user.user_id =comment.user_id ) as username from <include refid="table"></include> WHERE STATUS =1 limit #{start},#{pageSize}
     </select>
 
 

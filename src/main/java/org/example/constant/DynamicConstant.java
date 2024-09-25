@@ -41,4 +41,15 @@ public class DynamicConstant {
      */
     public static final Integer Comment_DEFAULT_NOW_PAGE_MIN_PAGE = 1 ;
 
+    /**
+     * 评论分页查询，默认当前页大小最小值是1
+     */
+    public static final Integer Comment_DEFAULT_PAGE_SIZE_MIN_VALUE = 1 ;
+
+    /**
+     * 默认分页查询评论数量最小数量为0
+     */
+    public static final Integer Comment_DEFALUT_DYNAMIC_COUNT_MIN_VALUE = 1 ;
+
+
 }
