@@ -47,8 +47,8 @@ public class DynamicController {
         return service.queryCommentPage(param);
     }
     /**
-     * TODO 1、评论分页查询
-     * TODO 2、消息通知
+     * TODO 1、评论分页查询  1
+     * TODO 2、消息通知     1
      * TODO 3、消息分页
      * TODO 4、个人主页展示------个人信息、个人动态、点赞或者收藏的动态
      * TODO 5、敏感词的过滤------前缀树算法

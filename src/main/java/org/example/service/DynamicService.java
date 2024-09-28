@@ -19,6 +19,7 @@ import org.example.message.dto.CommentMessageDTO;
 import org.example.message.dto.TakeVoteMessageDTO;
 import org.example.message.producer.MessageProducer;
 import org.example.param.*;
+import org.example.result.CommentPageResult;
 import org.example.result.DynamicPageResult;
 import org.example.util.CommonUtil;
 import org.example.util.JsonUtils;
@@ -348,11 +349,27 @@ public class DynamicService {
         int start = (nowPage - 1) * pageSize;
         List<CommentPageDTO> list = commentMapper.queryCommentPage(start,pageSize);
 
-//        List<CommentPageVO> voList = commentMapper;
+        List<CommentPageVO> voList = new ArrayList<>();
+
+        list.forEach(item ->{
+            CommentPageVO commentPageVO = new CommentPageVO();
+            commentPageVO.setId(item.getId());
+            commentPageVO.setUsername(item.getUsername());
+            commentPageVO.setUserId(item.getUserId());
+            commentPageVO.setEntityId(item.getEntityId());
+            commentPageVO.setEntityType(item.getEntityType());
+            commentPageVO.setContent(item.getContent());
+            commentPageVO.setCreateDate(item.getCreateDate());
+            commentPageVO.setDynamicId(item.getDynamicId());
+            commentPageVO.setStatus(item.getStatus());
+            voList.add(commentPageVO);
+        });
 
 
+        CommentPageResult commentPageResult = new CommentPageResult();
+        commentPageResult.setTotal(count);
+        commentPageResult.setData(voList);
 
-
-        return HttpResult.ok();
+        return new HttpResult(commentPageResult);
     }
 }
