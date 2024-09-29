@@ -372,4 +372,8 @@ public class DynamicService {
 
         return new HttpResult(commentPageResult);
     }
+
+    public HttpResult queryInformPage(QueryInformPageParam param) {
+        
+    }
 }

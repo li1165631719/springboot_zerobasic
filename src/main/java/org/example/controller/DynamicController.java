@@ -46,6 +46,11 @@ public class DynamicController {
     public HttpResult queryCommentPage(@RequestBody QueryCommentPageParam param){
         return service.queryCommentPage(param);
     }
+
+    @PostMapping("/query/inform")
+    public HttpResult queryInformPage(@RequestBody QueryInformPageParam param){
+        return service.queryInformPage(param);
+    }
     /**
      * TODO 1、评论分页查询  1
      * TODO 2、消息通知     1
