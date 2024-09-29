@@ -9,9 +9,11 @@ import org.example.enums.DynamicTypeEnum;
 import org.example.enums.EntityTypeEnum;
 import org.example.exception.CommentException;
 import org.example.exception.DynamicException;
+import org.example.exception.InformException;
 import org.example.local.HostHolder;
 import org.example.mapper.CommentMapper;
 import org.example.mapper.DynamicMapper;
+import org.example.mapper.InformMapper;
 import org.example.mapper.VoteMapper;
 import org.example.message.AsyncMessageDTO;
 import org.example.message.MessageTypeEnum;
@@ -21,11 +23,13 @@ import org.example.message.producer.MessageProducer;
 import org.example.param.*;
 import org.example.result.CommentPageResult;
 import org.example.result.DynamicPageResult;
+import org.example.result.InformPageResult;
 import org.example.util.CommonUtil;
 import org.example.util.JsonUtils;
 import org.example.util.QiniuPictureServiceUtils;
 import org.example.vo.CommentPageVO;
 import org.example.vo.DynamicVO;
+import org.example.vo.InformPageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +58,9 @@ public class DynamicService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private InformMapper informMapper;
 
     @Autowired
     private VoteMapper voteMapper;
@@ -331,12 +338,12 @@ public class DynamicService {
             return HttpResult.generateHttpResult(CommentException.Comment_PAGE_SIZE_IS_NOT_NULL);
         }
         if (pageSize < DynamicConstant.Comment_DEFAULT_PAGE_SIZE_MIN_VALUE) {
-            logger.info("分页查询动态，当前页大小小于1，请求参数：{}", JsonUtils.objectToJson(param));
+            logger.info("分页查询评论，当前页大小小于1，请求参数：{}", JsonUtils.objectToJson(param));
             return HttpResult.generateHttpResult(CommentException.Comment_PAGE_SIZE_IS_NOT_LESS_ONE);
         }
         Integer count = commentMapper.queryCommentCount();
         if (ObjectUtils.isEmpty(count) || count < DynamicConstant.Comment_DEFALUT_DYNAMIC_COUNT_MIN_VALUE) {
-            logger.info("分页查询动态，当前表按照条件查询，数据量为空，请求参数：{}", JsonUtils.objectToJson(param));
+            logger.info("分页查询评论，当前表按照条件查询，数据量为空，请求参数：{}", JsonUtils.objectToJson(param));
             return HttpResult.generateHttpResult(CommentException.Comment_COUNT_IS_NULL);
         }
         //评论数量/页数大小，起始页数为1
@@ -374,6 +381,58 @@ public class DynamicService {
     }
 
     public HttpResult queryInformPage(QueryInformPageParam param) {
-        
+        logger.info("分页查询消息通知，请求参数：{}", JsonUtils.objectToJson(param));
+        Integer nowPage = param.getNowPage();
+        if (ObjectUtils.isEmpty(nowPage)) {
+            logger.info("分页查询消息通知，当前页为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_NOW_PAGE_IS_NOT_NULL);
+        }
+        if (nowPage < DynamicConstant.Inform_DEFAULT_NOW_PAGE_MIN_PAGE) {
+            logger.info("分页查询消息通知，当前页小于1，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_NOW_PAGE_IS_NOT_LESS_ONE);
+        }
+        Integer pageSize = param.getPageSize();
+        if (ObjectUtils.isEmpty(pageSize)) {
+            logger.info("分页查询消息通知，当前页大小为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_PAGE_SIZE_IS_NOT_NULL);
+        }
+        if (pageSize < DynamicConstant.Inform_DEFAULT_PAGE_SIZE_MIN_VALUE) {
+            logger.info("分页查询消息通知，当前页大小小于1，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_PAGE_SIZE_IS_NOT_LESS_ONE);
+        }
+        Integer count = informMapper.queryInformCount();
+        if (ObjectUtils.isEmpty(count) || count < DynamicConstant.Inform_DEFALUT_DYNAMIC_COUNT_MIN_VALUE) {
+            logger.info("分页查询消息通知，当前表按照条件查询，数据量为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_COUNT_IS_NULL);
+        }
+        //消息通知数量/页数大小，起始页数为1
+        int total = count / pageSize + 1;
+        if (nowPage > total) {
+            logger.info("分页查询消息通知，当前页没有数据，数据量为空，请求参数：{}", JsonUtils.objectToJson(param));
+            return HttpResult.generateHttpResult(InformException.Inform_NOW_PAGE_DATA_IS_NULL);
+        }
+        //当前起始页
+        int start = (nowPage - 1) * pageSize;
+        List<InformPageDTO> list = informMapper.queryCommentPage(start,pageSize);
+        List<InformPageVO> voList = new ArrayList<>();
+
+        voList.forEach(item ->{
+            InformPageVO informPageVO = new InformPageVO();
+            informPageVO.setId(item.getId());
+            informPageVO.setSendUserId(item.getSendUserId());
+            informPageVO.setSendUserName(item.getSendUserName());
+            informPageVO.setTakeUserId(item.getTakeUserId());
+            informPageVO.setTakeUserName(item.getTakeUserName());
+            informPageVO.setContent(item.getContent());
+            informPageVO.setEntityId(item.getEntityId());
+            informPageVO.setEntityType(item.getEntityType());
+
+            voList.add(informPageVO);
+        });
+        InformPageResult informPageResult = new InformPageResult();
+        informPageResult.setTotal(count);
+        informPageResult.setData(voList);
+
+        return new HttpResult(informPageResult);
     }
 }
